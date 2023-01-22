@@ -1,0 +1,22 @@
+CREATE TABLE users(name varchar(21) NOT NULL DEFAULT 'Student', user_id BIGINT NOT NULL UNIQUE,
+                  date real NOT NULL, lang_code varchar(2), balance FLOAT NOT NULL DEFAULT 0,
+                  username TEXT UNIQUE, bio varchar(81), invites INT DEFAULT 0, status varchar(10),
+                  link varchar(56) NOT NULL UNIQUE, gender varchar(10), setting JSON NOT NULL DEFAULT '{}',
+                  withdraw INT NOT NULL DEFAULT 0, phone_number varchar(13));
+
+CREATE TABLE IF NOT EXISTS questions(asker BIGINT NOT NULL, question_id SERIAL, question JSON NOT NULL,
+                                    status varchar(10) NOT NULL DEFAULT 'previewing', date real NOT NULL,
+                                    message_id INT, browse int DEFAULT 0, unique_link varchar(64) NOT NULL UNIQUE,
+                                    subject varchar(20) NOT NULL, reply BOOLEAN NOT NULL DEFAULT true,
+                                    browse_link varchar(28) NOT NULL UNIQUE);
+
+CREATE TABLE answers(user_id BIGINT NOT NULL, question_id INT NOT NULL, answer_id SERIAL,
+                    date real NOT NULL, status varchar(10) NOT NULL DEFAULT 'previewing', unique_link varchar(40) UNIQUE,
+                    reply_to INT NOT NULL DEFAULT 0, answer JSON not null, message_id INT);
+
+
+CREATE table setting(admins JSON NOT NULL DEFAULT '{}', restriction JSON NOT NULL DEFAULT '{}')
+
+CREATE TABLE invited_users(invited_by BIGINT NOT NULL, invited_user BIGINT NOT NULL UNIQUE);
+
+INSERT INTO setting(restriction) VALUES('{"can_ask": false, "can_answer": true, "can_withdraw": false}')
